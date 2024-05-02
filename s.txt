@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Textarea с лимитом и счетчик дней</title>
+</head>
+<body>
+    <textarea id="limitedTextarea" maxlength="100"></textarea>
+    <p>Осталось символов: <span id="charsLeft">100</span></p>
+    <p>Дней до 26 июля: <span id="daysUntil"></span></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
+document.addEventListener("DOMContentLoaded", function() {
+    const textarea = document.getElementById('limitedTextarea');
+    const charsLeftSpan = document.getElementById('charsLeft');
+    const maxLength = textarea.maxLength;
+
+    textarea.addEventListener('input', function() {
+        const remaining = maxLength - textarea.value.length;
+        charsLeftSpan.textContent = remaining;
+    });
+
+    // Функция подсчета дней до определенной даты
+    function daysUntil(date) {
+        const now = new Date();
+        const targetDate = new Date(date);
+        const timeDiff = targetDate - now;
+        return Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    }
+
+    const daysUntilSpan = document.getElementById('daysUntil');
+    daysUntilSpan.textContent = daysUntil('July 26, ' + (new Date()).getFullYear());
+});
